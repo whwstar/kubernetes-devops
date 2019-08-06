@@ -2,6 +2,7 @@
 @(deploy kubernetes)[Jenkins|GitLab]
 使用shell脚本离线部署kubernetes，并且附带周边生态工作
 本工具使用的二进制安装包都再百度云上，请下载 链接:https://pan.baidu.com/s/10XN7cDJWdktTHiaKjIXvig  密码:xcme
+-------------------
 [TOC]
 
 ## 安装过程
