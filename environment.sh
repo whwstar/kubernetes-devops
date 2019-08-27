@@ -15,6 +15,10 @@ export NODE_IPS=(10.1.204.167 10.1.204.168 10.1.204.166)
 # 集群各 IP 对应的主机名数组
 export NODE_NAMES=(node1 node2 node3)
 
+# 新增节点
+export ADD_NODES=(addnode1)
+export ADDNODES_IP=(10.1.204.179)
+
 # etcd 集群服务地址列表
 export ETCD_ENDPOINTS="https://10.1.204.167:2379,https://10.1.204.168:2379,https://10.1.204.166:2379"
 
