@@ -13,6 +13,7 @@ kubectl get nodes
 
 #创建三个 ClusterRoleBinding，分别用于自动 approve client、renew client、renew server 证书
 function auto_approve_csr(){
+
 cat > $BASE_DIR/work/csr-crb.yaml <<EOF
  # Approve all CSRs for the group "system:bootstrappers"
  kind: ClusterRoleBinding
@@ -67,7 +68,6 @@ rules:
    name: approve-node-server-renewal-csr
    apiGroup: rbac.authorization.k8s.io
 EOF
-kubectl apply -f csr-crb.yaml
 
 }
 
@@ -93,16 +93,15 @@ ls -l /etc/kubernetes/cert/|grep kubelet
 #curl -s --cacert /etc/kubernetes/cert/ca.pem https://10.1.204.167:10250/metrics
 #curl -s --cacert /etc/kubernetes/cert/ca.pem -H "Authorization: Bearer 123456" https://10.1.204.167:10250/metrics
 #通过认证后，kubelet 使用 SubjectAccessReview API 向 kube-apiserver 发送请求，查询证书>或 token 对应的 user、group 是否有操作资源的权限(RBAC)
-function aa(){
 #权限不足的证书
-curl -s --cacert /etc/kubernetes/cert/ca.pem --cert /etc/kubernetes/cert/kube-controller-manager.pem --key /etc/kubernetes/cert/kube-controller-manager-key.pem https://10.1.204.167:10250/metrics
-Forbidden (user=system:kube-controller-manager, verb=get, resource=nodes, subresource=metrics)
+#curl -s --cacert /etc/kubernetes/cert/ca.pem --cert /etc/kubernetes/cert/kube-controller-manager.pem --key /etc/kubernetes/cert/kube-controller-manager-key.pem https://${NODE_IPS[0]}:10250/metrics
+#Forbidden (user=system:kube-controller-manager, verb=get, resource=nodes, subresource=metrics)
 # 使用部署 kubectl 命令行工具时创建的、具有最高权限的 admin 证书
-curl -s --cacert /etc/kubernetes/cert/ca.pem --cert $BASE_DIR/work/admin.pem --key $BASE_DIR/work/admin-key.pem https://10.1.204.167:10250/metrics|head
-}
+#curl -s --cacert /etc/kubernetes/cert/ca.pem --cert $BASE_DIR/work/admin.pem --key $BASE_DIR/work/admin-key.pem https://${NODE_IPS[0]}:10250/metrics|head
 
-cd $BASE_DIR/work/
 auto_approve_csr
+cd $BASE_DIR/work/
+kubectl apply -f csr-crb.yaml
 check_kubelet_info
 cd -
 

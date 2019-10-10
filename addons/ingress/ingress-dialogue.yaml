@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-nginx-dialogue
+  namespace: finup
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+spec:
+  rules:
+  - host: wenzhen-finup.mobvoi.com
+    http:
+      paths:
+        - path: /dialogue(/|$)(.*)
+          backend:
+            serviceName: dialogue
+            servicePort: 8720
+        - path: /manager(/|$)(.*)
+          backend:
+            serviceName: manager
+            servicePort: 8718
+        - path: /tts(/|$)(.*)
+          backend:
+            serviceName: tts-server
+            servicePort: 8297
+        - path: /punt(/|$)(.*)
+          backend:
+            serviceName: punt-server
+            servicePort: 8528

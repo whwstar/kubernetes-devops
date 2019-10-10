@@ -27,9 +27,9 @@ events {
 stream {
     upstream backend {
         hash $remote_addr consistent;
-        server 10.1.204.167:6443        max_fails=3 fail_timeout=30s;
-        server 10.1.204.168:6443        max_fails=3 fail_timeout=30s;
-        server 10.1.204.166:6443        max_fails=3 fail_timeout=30s;
+        server 10.42.187.225:6443        max_fails=3 fail_timeout=30s;
+        server 10.42.96.230:6443        max_fails=3 fail_timeout=30s;
+        server 10.42.31.75:6443        max_fails=3 fail_timeout=30s;
     }
 
     server {
@@ -93,9 +93,9 @@ for node_ip in ${ADDNODES_IP[@]}
 function deploy_kube_nginx(){
     deploy_nginx
     create_nginx_config
-    start_kube_nginx
     cd $BASE_DIR/work/
     scp_nginx_config
+    start_kube_nginx
     cd -
 }
 deploy_kube_nginx

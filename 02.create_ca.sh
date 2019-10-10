@@ -20,7 +20,7 @@ cat > $BASE_DIR/work/ca-config.json <<EOF
 {
   "signing": {
     "default": {
-      "expiry": "87600h"
+      "expiry": "876000h"
     },
     "profiles": {
       "kubernetes": {
@@ -30,7 +30,7 @@ cat > $BASE_DIR/work/ca-config.json <<EOF
             "server auth",
             "client auth"
         ],
-        "expiry": "87600h"
+        "expiry": "876000h"
       }
     }
   }

@@ -27,9 +27,9 @@ events {
 stream {
     upstream backend {
         hash $remote_addr consistent;
-        server 10.1.204.167:6443        max_fails=3 fail_timeout=30s;
-        server 10.1.204.168:6443        max_fails=3 fail_timeout=30s;
-        server 10.1.204.166:6443        max_fails=3 fail_timeout=30s;
+        server ${NODE_IPS[0]}:6443        max_fails=3 fail_timeout=30s;
+        server ${NODE_IPS[1]}:6443        max_fails=3 fail_timeout=30s;
+        server ${NODE_IPS[2]}:6443        max_fails=3 fail_timeout=30s;
     }
 
     server {

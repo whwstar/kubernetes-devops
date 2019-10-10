@@ -237,3 +237,6 @@ function deploy_kubelet(){
 }
 deploy_kubelet
 start_kubelet
+
+
+#kubectl certificate approve csr-5r7j7

@@ -19,9 +19,9 @@ cat > $BASE_DIR/work/etcd-csr.json <<EOF
   "CN": "etcd",
   "hosts": [
     "127.0.0.1",
-    "10.1.204.167",
-    "10.1.204.168",
-    "10.1.204.166"
+    "${NODE_IPS[0]}",
+    "${NODE_IPS[1]}",
+    "${NODE_IPS[2]}"
   ],
   "key": {
     "algo": "rsa",
@@ -85,7 +85,7 @@ ExecStart=${BASE_DIR}/bin/etcd \\
   --initial-cluster=${ETCD_NODES} \\
   --initial-cluster-state=new \\
   --max-request-bytes=33554432 \\
-  --quota-backend-bytes=6442450944 \\
+  --quota-backend-bytes=8589934592 \\
   --heartbeat-interval=250 \\
   --election-timeout=2000
 Restart=on-failure
@@ -98,7 +98,8 @@ EOF
 }
 
 function generate_node_unit(){
-for (( i=0; i < 3; i++ ))
+len=${#NODE_NAMES[*]}
+for (( i=0; i < $len; i++ ))
   do
     sed -e "s/##NODE_NAME##/${NODE_NAMES[i]}/" -e "s/##NODE_IP##/${NODE_IPS[i]}/" etcd.service.template > etcd-${NODE_IPS[i]}.service 
   done
@@ -163,7 +164,7 @@ scp_etcd_unit
 start_etcd_server
 }
 
-#deploy_etcd_cluster
+deploy_etcd_cluster
 check_start_result
 check_etct_status
 check_leader

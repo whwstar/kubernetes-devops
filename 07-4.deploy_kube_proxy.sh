@@ -126,7 +126,8 @@ EOF
 }
 
 function distribution_proxy_config(){
-for (( i=0; i < 3; i++ ))
+len=${#NODE_IPS[@]}
+for (( i=0; i < $len; i++ ))
   do 
     echo ">>> ${NODE_NAMES[i]}"
     sed -e "s/##NODE_NAME##/${NODE_NAMES[i]}/" -e "s/##NODE_IP##/${NODE_IPS[i]}/" kube-proxy-config.yaml.template > kube-proxy-config-${NODE_NAMES[i]}.yaml.template

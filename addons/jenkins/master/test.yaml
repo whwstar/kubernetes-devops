@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: asr-16k-pv
+spec:
+  capacity:
+    storage: 30Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  nfs:
+    server: 10.19.255.192
+    path: /ufs-5zof3d5v/asr/16k
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: asr-16k-pvc
+  namespace: test-org
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi

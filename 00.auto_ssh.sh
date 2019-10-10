@@ -7,7 +7,7 @@ if [ -f ./environment.sh ]; then
 fi
 
 DEST_USER=root
-PASSWORD=123456
+PASSWORD=!QAZ2wsx!QAZ
 HOSTS_IP=$NODE_IPS
 #if [ $# -ne 3 ]; then
 #    echo "Usage:"

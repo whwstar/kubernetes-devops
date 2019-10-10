@@ -16,15 +16,15 @@ cat > $BASE_DIR/work/kubernetes-csr.json <<EOF
   "CN": "kubernetes",
   "hosts": [
     "127.0.0.1",
-    "10.1.204.167",
-    "10.1.204.168",
-    "10.1.204.166",
+    "${NODE_IPS[0]}",
+    "${NODE_IPS[1]}",
+    "${NODE_IPS[2]}",
     "${CLUSTER_KUBERNETES_SVC_IP}",
     "kubernetes",
     "kubernetes.default",
     "kubernetes.default.svc",
     "kubernetes.default.svc.cluster",
-    "kubernetes.default.svc.cluster.local."
+    "kubernetes.default.svc.cluster.local"
   ],
   "key": {
     "algo": "rsa",
@@ -475,4 +475,4 @@ start_api_server
 check_start_status
 print_etcd_registry
 check_cluster_status
-grant
+#grant

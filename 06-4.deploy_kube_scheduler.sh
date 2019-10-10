@@ -16,9 +16,9 @@ cat > $BASE_DIR/work/kube-scheduler-csr.json <<EOF
     "CN": "system:kube-scheduler",
     "hosts": [
       "127.0.0.1",
-      "10.1.204.167",
-      "10.1.204.168",
-      "10.1.204.166"
+      "${NODE_IPS[0]}",
+      "${NODE_IPS[1]}",
+      "${NODE_IPS[2]}"
     ],
     "key": {
         "algo": "rsa",
@@ -50,10 +50,8 @@ clientConnection:
 enableContentionProfiling: false
 enableProfiling: true
 hardPodAffinitySymmetricWeight: 1
-healthzBindAddress: ##NODE_IP##:10251
 leaderElection:
   leaderElect: true
-metricsBindAddress: ##NODE_IP##:10251
 EOF
 
 #创建 kube-scheduler systemd unit 模板文件
@@ -67,7 +65,8 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 WorkingDirectory=${K8S_DIR}/kube-scheduler
 ExecStart=${BASE_DIR}/bin/kube-scheduler \\
   --config=/etc/kubernetes/kube-scheduler.yaml \\
-  --bind-address=##NODE_IP## \\
+  --address=127.0.0.1 \\
+  --bind-address=0.0.0.0 \\
   --secure-port=10259 \\
   --port=0 \\
   --tls-cert-file=/etc/kubernetes/cert/kube-scheduler.pem \\
@@ -160,7 +159,7 @@ function check_metrics(){
 #10251：接收 http 请求，非安全端口，不需要认证授权
 #10259：接收 https 请求，安全端口，需要认证授权
 curl -s http://127.0.0.1:10251/metrics |head
-curl -s --cacert $BASE_DIR/work/ca.pem --cert $BASE_DIR/work/admin.pem --key $BASE_DIR/work/admin-key.pem https://10.1.204.167:10259/metrics |head
+curl -s --cacert $BASE_DIR/work/ca.pem --cert $BASE_DIR/work/admin.pem --key $BASE_DIR/work/admin-key.pem https://${NODE_IPS[0]}:10259/metrics |head
 
 #查看当前的 leader
 kubectl get endpoints kube-scheduler --namespace=kube-system  -o yaml

@@ -22,9 +22,9 @@ cat > $BASE_DIR/work/kube-controller-manager-csr.json <<EOF
     },
     "hosts": [
       "127.0.0.1",
-      "10.1.204.167",
-      "10.1.204.168",
-      "10.1.204.166"
+      "${NODE_IPS[0]}",
+      "${NODE_IPS[1]}",
+      "${NODE_IPS[2]}"
     ],
     "names": [
       {
@@ -69,11 +69,8 @@ ExecStart=$BASE_DIR/bin/kube-controller-manager \\
   --leader-elect \\
   --use-service-account-credentials\\
   --concurrent-service-syncs=2 \\
-  --bind-address=##NODE_IP## \\
-  --secure-port=10252 \\
   --tls-cert-file=/etc/kubernetes/cert/kube-controller-manager.pem \\
   --tls-private-key-file=/etc/kubernetes/cert/kube-controller-manager-key.pem \\
-  --port=0 \\
   --authentication-kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \\
   --client-ca-file=/etc/kubernetes/cert/ca.pem \\
   --requestheader-allowed-names="" \\
@@ -173,7 +170,7 @@ for node_ip in ${NODE_IPS[@]}
 
 #查看输出的 metrics
 function check_metrics_info(){
-curl -s --cacert $BASE_DIR/work/ca.pem --cert $BASE_DIR/work/admin.pem --key $BASE_DIR/work/admin-key.pem https://10.1.204.167:10252/metrics |head
+curl -s --cacert $BASE_DIR/work/ca.pem --cert $BASE_DIR/work/admin.pem --key $BASE_DIR/work/admin-key.pem https://${NODE_IPS[0]}:10252/metrics |head
 
 #kube-controller-manager 的权限
 #ClusteRole system:kube-controller-manager 的权限很小，只能创建 secret、serviceaccount 等资源对象，各 controller 的权限分散到 ClusterRole system:controller:XXX 中

@@ -2,16 +2,16 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-nginx
-  namespace: default
+  namespace: finup
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
   rules:
-  - host: kubernetes.tob.com
+  - host: wenzhen-finup.mobvoi.com
     http:
       paths:
         - path: /
           backend:
-            serviceName: my-nginx
-            servicePort: 80
+            serviceName: web
+            servicePort: 8717

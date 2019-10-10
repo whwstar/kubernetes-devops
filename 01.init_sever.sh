@@ -13,9 +13,9 @@ do
 #创建部署目录
     scp /etc/hosts $USERNAME@$host:/etc/hosts 
     scp -r $PWD/scripts $USERNAME@$host:$BASE_DIR/
-    ssh $USERNAME@$host "cd $BASE_DIR/scripts && sh init.sh"
+    ssh $USERNAME@$host "cd $BASE_DIR/init_os && sh init.sh"
     ssh $USERNAME@$host   "mkdir -p  $BASE_DIR/{bin,work} /etc/{kubernetes,etcd}/cert"
-    ssh $USERNAME@$host   "hostnamectl set-hostname ${NODE_NAMES[$count]} && useradd -m docker"
+#    ssh $USERNAME@$host   "hostnamectl set-hostname ${NODE_NAMES[$count]} && useradd -m docker"
     ssh $USERNAME@$host   "echo 'PATH=$BASE_DIR/bin:\$PATH' >>/root/.bashrc && source /root/.bashrc"
     count=$(expr $count + 1)
     scp environment.sh $USERNAME@$host:$BASE_DIR/bin

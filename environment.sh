@@ -4,32 +4,32 @@
 export USERNAME="root"
 
 #部署服务器,当前主机用来执行部署脚本
-export DEPLOY_SERVER="10.1.204.167"
+export DEPLOY_SERVER="10.42.187.225"
 
 # 生成 EncryptionConfig 所需的加密 key
 export ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
 
 # 集群各机器 IP 数组
-export NODE_IPS=(10.1.204.167 10.1.204.168 10.1.204.166)
+export NODE_IPS=(10.42.187.225 10.42.96.230 10.42.46.135)
 
 # 集群各 IP 对应的主机名数组
-export NODE_NAMES=(node1 node2 node3)
+export NODE_NAMES=(dev-tob-5 dev-tob-4 dev-tob-2)
 
 # 新增节点
-export ADD_NODES=(addnode1)
-export ADDNODES_IP=(10.1.204.179)
+export ADD_NODES=(dev-tob-8)
+export ADDNODES_IP=(10.42.159.235)
 
 # etcd 集群服务地址列表
-export ETCD_ENDPOINTS="https://10.1.204.167:2379,https://10.1.204.168:2379,https://10.1.204.166:2379"
+export ETCD_ENDPOINTS="https://10.42.187.225:2379,https://10.42.96.230:2379,https://10.42.31.75:2379"
 
 # etcd 集群间通信的 IP 和端口
-export ETCD_NODES="node1=https://10.1.204.167:2380,node2=https://10.1.204.168:2380,node3=https://10.1.204.166:2380"
+export ETCD_NODES="dev-tob-5=https://10.42.187.225:2380,dev-tob-4=https://10.42.96.230:2380,dev-tob-9=https://10.42.31.75:2380"
 
 # kube-apiserver 的反向代理(kube-nginx)地址端口
 export KUBE_APISERVER="https://127.0.0.1:8443"
 
 # 节点间互联网络接口名称
-export IFACE="ens3"
+export IFACE="eth0"
 
 # etcd 数据目录
 export ETCD_DATA_DIR="/data/k8s/etcd/data"
